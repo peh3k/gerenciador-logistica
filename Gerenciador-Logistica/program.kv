@@ -1,0 +1,544 @@
+#: import MDFadeSlideTransition kivymd.uix.transition.transition.MDFadeSlideTransition
+
+MDScreenManager:
+    Painel:
+        name: 'painel'
+    CadastroTransportadora:
+        name: 'cadastro-transp'
+    InserirTransportadora:
+        name: 'manual-transp'
+    
+    EditarTransportadora:
+        name: 'editar-transp'
+
+<ButtonChoice@MDRectangleFlatIconButton>
+    theme_text_color: "Custom"
+    text_color: "white"
+    theme_icon_color: "Custom"
+    icon_color: "white"
+    line_color: "white"
+    font_size: "15sp"
+    padding: '10dp'
+    font_name: "Poppins-Medium.ttf"
+
+<ElementCard@MDCard>:
+    md_bg_color: '#f0f6fc'
+    radius:dp(10)
+    padding: '20dp'
+    focus_behavior: True
+    elevation: 3
+    image: ''
+    text: ''
+    orientation: 'vertical'
+    FitImage:
+        source: "database-eye.png"
+    MDLabel:
+        halign:"center"
+        text:root.text
+        font_size: "15sp" 
+        font_name: "Poppins-Medium.ttf"
+
+<TitleLabel@MDLabel>:
+    theme_text_color: "Custom"
+    text_color: '#f0f6fc'
+    font_style: 'H6'
+    font_name: "Poppins-Medium.ttf"
+
+<NavItem@MDNavigationDrawerItem>
+    focus_behavior: False
+    text_color: '#f0f6fc'
+    icon_color: '#f0f6fc'
+    _no_ripple_effect: True
+    selected_color: "#f0f6fc"
+<NavLabel@MDNavigationDrawerLabel>
+    text_color: '#f0f6fc'
+
+
+<Painel>
+    
+    md_bg_color: '#0d1117'
+
+    MDNavigationLayout:
+
+        MDScreenManager:
+
+            MDScreen:
+
+                MDTopAppBar:
+                    elevation: 0
+                    pos_hint: {"top": 1}
+                    md_bg_color: "#0d1117"
+                    specific_text_color: "#f0f6fc"
+                    left_action_items: [["dots-hexagon", lambda x: nav_drawer.set_state("open")]]
+
+        MDNavigationDrawer:
+
+            id: nav_drawer
+            radius: (0, 4, 4, 0)
+            opening_time: 0.08
+            closing_time: 0.08
+            md_bg_color: "#21262d"
+
+            MDNavigationDrawerMenu:
+
+                NavLabel:
+                    text: "TRANSPORTADORA"
+                    
+                NavItem:
+                    icon: "truck-fast"
+                    text_right_color: "#f0f6fc"
+                    text: "Cadastro" 
+                    on_press:
+                        nav_drawer.set_state("close")
+                        app.root.transition.direction = 'left'
+                        app.root.current='cadastro-transp'
+                        
+                        
+                NavItem:
+                    icon: "pencil"
+                    text: "Editar"
+                    on_press:
+                        nav_drawer.set_state("close")
+                        app.root.transition.direction = 'left'
+                        app.root.current='editar-transp'
+                
+                NavItem:
+                    icon: "eye"
+                    text: "Visualizar"
+                    on_press:
+                        nav_drawer.set_state("close")
+                        
+                MDNavigationDrawerDivider:
+
+                NavLabel:
+                    text: "PRODUTO"
+
+                NavItem:
+                    icon: "basket"
+                    text: "Cadastro"
+                    on_press:
+                        nav_drawer.set_state("close")
+
+                NavItem:
+                    icon: "pencil"
+                    text: "Editar"
+                    on_press:
+                        nav_drawer.set_state("close")
+                NavItem:
+                    icon: "eye"
+                    text: "Visualizar"
+                    on_press:
+                        nav_drawer.set_state("close")
+    
+<CadastroTransportadora>
+    md_bg_color: '#0d1117'
+
+    MDBoxLayout:
+        MDIconButton:
+            icon: "arrow-left"
+            icon_size: "25sp"
+            pos_hint: {"top": 1}
+            _no_ripple_effect: True
+            on_press: 
+                app.root.transition.direction = 'right'
+                app.root.current = 'painel'
+    MDFloatLayout:
+
+        ButtonChoice:
+            icon: "database-arrow-down"
+            text: "Importar Dados"
+            pos_hint: {"center_x": .38, "center_y": .5}
+            on_release: root.file_manager_open()
+        
+        ButtonChoice:
+            icon: "draw-pen"
+            text: "Inserir Manualmente"
+            pos_hint: {"center_x": .62, "center_y": .5}
+            on_press: 
+                app.root.transition.direction = 'left'
+                app.root.current = 'manual-transp'
+
+<InserirTransportadora>
+    md_bg_color: '#0d1117'
+
+    MDBoxLayout:
+        MDIconButton:
+            icon: "arrow-left"
+            icon_size: "25sp"
+            pos_hint: {"top": 1}
+            _no_ripple_effect: True
+            on_press: 
+                app.root.transition.direction = 'right'
+                app.root.current = 'cadastro-transp'
+    MDBoxLayout:
+        orientation: 'horizontal'
+        padding: '50dp'
+        spacing: '90dp'
+        MDBoxLayout:
+            orientation: 'vertical'
+
+            MDTextField:
+                id: nome
+                hint_text: "Nome"
+
+                
+                
+            MDTextField:
+                id: pinicial
+                hint_text: "Peso Inicial"
+                max_text_length: 7
+                helper_text: "(g)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+            
+            MDTextField:
+                id: pfinal
+                hint_text: "Peso Final"
+                max_text_length: 7
+                helper_text: "(g)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+
+            MDTextField:
+                id: cepinicial
+                hint_text: "Cep Inicial"
+                max_text_length: 9
+                size_hint_x: .5
+                
+            
+            MDTextField:
+                id: cepfinal
+                hint_text: "Cep Final"
+                max_text_length: 9
+                size_hint_x: .5
+            
+            MDTextField:
+                id: prazo
+                hint_text: "Prazo"
+                max_text_length: 2
+                helper_text: "(dias)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+            
+            MDTextField:
+                id: estado
+                hint_text: "Estado"
+                max_text_length: 2
+                size_hint_x: .4
+            
+            MDTextField:
+                id: cidade
+                hint_text: "Cidade"
+                
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: '25dp'
+
+            MDTextField:
+                id: regiao
+                hint_text: "Região"
+                size_hint_x: .5
+                
+            MDTextField:
+                id: frete
+                hint_text: "Frete"
+                max_text_length: 5
+                helper_text: "(R$)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+                
+            MDTextField:
+                id: fretemin
+                hint_text: "Frete Mín."
+                max_text_length: 5
+                helper_text: "(R$)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+                
+            MDTextField:
+                id: tac
+                hint_text: "Tac"
+                max_text_length: 5
+                helper_text: "(R$)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+                
+            MDTextField:
+                id: gris
+                hint_text: "Gris"
+                max_text_length: 4
+                helper_text: "(%)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+
+
+            MDTextField:
+                id: advalorem
+                hint_text: "Advalorem"
+                max_text_length: 4
+                helper_text: "(%)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+            
+            
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: '50dp'
+
+            MDTextField:
+                id: pedagio
+                hint_text: "Pedágio"
+                max_text_length: 5
+                helper_text: "(R$)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+            
+            MDTextField:
+                id: tas
+                hint_text: "Tas"
+                max_text_length: 5
+                helper_text: "(R$)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+
+            MDTextField:
+                id: icms
+                hint_text: "Icms"
+                max_text_length: 5
+                helper_text: "(%)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+
+            MDTextField:
+                id: outros
+                hint_text: "Outros"
+            
+            MDRectangleFlatButton:
+                text: "Cadastrar"
+                pos_hint: {'right': 1}
+                theme_text_color: "Custom"
+                text_color: "white"
+                line_color: "white"
+                font_size: "13sp"
+                padding: '10dp'
+                font_name: "Poppins-Medium.ttf"
+                on_press: root.insert_into()
+
+<EditarTransportadora>
+    md_bg_color: '#0d1117'
+
+    MDBoxLayout:
+        MDIconButton:
+            icon: "arrow-left"
+            icon_size: "25sp"
+            pos_hint: {"top": 1}
+            _no_ripple_effect: True
+            on_press: 
+                app.root.transition.direction = 'right'
+                app.root.current = 'painel'
+    MDBoxLayout:
+        orientation: 'horizontal'
+        padding: '50dp'
+        spacing: '90dp'
+        MDBoxLayout:
+            orientation: 'vertical'
+
+            MDDropDownItem:
+                id: drop_item
+                text: 'Selecionar Empresa'
+                on_release: root.menu.open()
+     
+            MDTextField:
+                id: pinicial
+                hint_text: "Peso Inicial"
+                max_text_length: 7
+                helper_text: "(g)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+            
+            MDTextField:
+                id: pfinal
+                hint_text: "Peso Final"
+                max_text_length: 7
+                helper_text: "(g)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+
+            MDTextField:
+                id: cepinicial
+                hint_text: "Cep Inicial"
+                max_text_length: 9
+                size_hint_x: .5
+                
+            
+            MDTextField:
+                id: cepfinal
+                hint_text: "Cep Final"
+                max_text_length: 9
+                size_hint_x: .5
+            
+            MDTextField:
+                id: prazo
+                hint_text: "Prazo"
+                max_text_length: 2
+                helper_text: "(dias)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+            
+            MDTextField:
+                id: estado
+                hint_text: "Estado"
+                max_text_length: 2
+                size_hint_x: .4
+            
+            MDTextField:
+                id: cidade
+                hint_text: "Cidade"
+                
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: '25dp'
+
+            MDTextField:
+                id: regiao
+                hint_text: "Região"
+                size_hint_x: .5
+                
+            MDTextField:
+                id: frete
+                hint_text: "Frete"
+                max_text_length: 5
+                helper_text: "(R$)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+                
+            MDTextField:
+                id: fretemin
+                hint_text: "Frete Mín."
+                max_text_length: 5
+                helper_text: "(R$)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+                
+            MDTextField:
+                id: tac
+                hint_text: "Tac"
+                max_text_length: 5
+                helper_text: "(R$)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+                
+            MDTextField:
+                id: gris
+                hint_text: "Gris"
+                max_text_length: 4
+                helper_text: "(%)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+
+
+            MDTextField:
+                id: advalorem
+                hint_text: "Advalorem"
+                max_text_length: 4
+                helper_text: "(%)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+            
+            
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: '50dp'
+
+            MDTextField:
+                id: pedagio
+                hint_text: "Pedágio"
+                max_text_length: 5
+                helper_text: "(R$)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+            
+            MDTextField:
+                id: tas
+                hint_text: "Tas"
+                max_text_length: 5
+                helper_text: "(R$)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+
+            MDTextField:
+                id: icms
+                hint_text: "Icms"
+                max_text_length: 5
+                helper_text: "(%)"
+                helper_text_mode: "persistent"
+                size_hint_x: .4
+
+            MDTextField:
+                id: outros
+                hint_text: "Outros"
+            
+            
+            MDRectangleFlatButton:
+                text: "Atualizar"
+                pos_hint: {'right': 1}
+                theme_text_color: "Custom"
+                text_color: "white"
+                line_color: "white"
+                font_size: "13sp"
+                padding: '10dp'
+                font_name: "Poppins-Medium.ttf"
+                on_press: root.edit_transp()
+    MDFloatLayout:    
+        MDRaisedButton:
+            text: "Deletar Empresa"
+            pos_hint: {'center_x': .77, "center_y": .12}
+            theme_text_color: "Custom"
+            md_bg_color: 'red'
+            text_color: "white"
+            font_size: "13sp"
+            padding: '10dp'
+            elevation: 2
+            font_name: "Poppins-Medium.ttf"
+            on_press:
+                root.delete_transp()
+
+            
+
+                    
+               
+
+            
+            
+        
+            
+        
+        
+            
+
+    
+            
+            
+
+        
+        
+
+
+
+
+           
+
+        
+            
+
+        
+            
+
+
+        
+        
+            
+        
+    
